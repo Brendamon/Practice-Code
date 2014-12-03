@@ -1,0 +1,36 @@
+int count= 350
+PVector[] loc = new PVector[count];
+PVector[] vel = new PVector[count];
+PVector[] acc = new PVector[count];
+float[] sz = new float[count];
+int minDiam =1.5;
+int maxDiam = 10;
+void setup() {
+  size(1000, 800);
+  for (int b = 0; b < count; b++) {
+    sz[b] = random(minDiam,maxDiam);
+    loc[b] = new PVector(random(width), random(-height*3,-sz[b]/2),map(sz[b],minDiam,maxDiam,10,255));
+    vel[b] = new PVector(0, 1);
+    acc [b]= new PVector(0, .05);
+    
+  }
+  noStroke();
+  
+}
+
+void draw() {
+  background(0, 00, 150);
+  for (int b = 0; b < count; b++) {
+    acc[b].x = random(-.05, .05);
+    vel[b].add(acc[b]);
+    vel[b].limit(3);
+    loc[b].add(vel[b]);
+    fill(255,loc[b].z);
+    ellipse(loc[b].x, loc[b].y, sz[b], sz[b]);
+    if (loc[b].y -sz[b]/2 > height) {
+      loc[b].set(random(width),random(-height,-sz[b]/2));
+      vel[b].set(0, 1);
+    }
+  }
+}
+
